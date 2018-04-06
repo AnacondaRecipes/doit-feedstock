@@ -1,7 +1,7 @@
 {% set name = "doit" %}
-{% set version = "0.31.1" %}
+{% set version = "0.29.0" %}
 {% set hash_type = "sha256" %}
-{% set hash_value = "bad01949effd537cade3aea286cc2cde074bdb7a4f442015557b1228dd46f5ea" %}
+{% set hash_value = "fcb479482644de3e83d6faed9b29373f1f38942b79b991a7432943a84416d5cd" %}
 
 package:
   name: '{{ name|lower }}'
@@ -14,7 +14,6 @@ source:
 
 build:
   number: 0
-  skip: True  # [py2k]
   entry_points:
     - doit = doit.__main__:main
   script: python setup.py install  --single-version-externally-managed --record=record.txt
@@ -25,7 +24,9 @@ requirements:
     - setuptools
   run:
     - python
+    - configparser # [py27]
     - cloudpickle
+    - six
     - macfsevents  # [osx]
     - pyinotify  # [linux]
 
