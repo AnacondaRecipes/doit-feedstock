@@ -1,7 +1,7 @@
 {% set name = "doit" %}
-{% set version = "0.32.0" %}
+{% set version = "0.33.1" %}
 {% set hash_type = "sha256" %}
-{% set hash_value = "323d0411e50a0babb945e2a639aa6e633fbb84a9f98086df0c880e739237750c" %}
+{% set hash_value = "37c3b35c2151647b968b2af24481112b2f813c30f695366db0639d529190a143" %}
 
 package:
   name: '{{ name|lower }}'
