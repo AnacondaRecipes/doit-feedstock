@@ -1,20 +1,16 @@
 {% set name = "doit" %}
-{% set version = "0.33.1" %}
-{% set hash_type = "sha256" %}
-{% set hash_value = "37c3b35c2151647b968b2af24481112b2f813c30f695366db0639d529190a143" %}
+{% set version = "0.36.0" %}
 
 package:
-  name: '{{ name|lower }}'
-  version: '{{ version }}'
+  name: {{ name|lower }}
+  version: {{ version }}
 
 source:
-  fn: '{{ name }}-{{ version }}.tar.gz'
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  '{{ hash_type }}': '{{ hash_value }}'
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/doit-{{ version }}.tar.gz
+  sha256: 71d07ccc9514cb22fe59d98999577665eaab57e16f644d04336ae0b4bae234bc
 
 build:
-  number: 1
-  skip: True  # [py2k]
+  number: 0
   entry_points:
     - doit = doit.__main__:main
   script: pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
@@ -23,20 +19,24 @@ requirements:
   host:
     - python
     - setuptools
+    - pip
+    - wheel
   run:
     - python
     - cloudpickle
-    - macfsevents  # [osx]
-    - pyinotify  # [linux]
+    - importlib-metadata >=4.4
 
 test:
   imports:
     - doit
   commands:
+    - pip check
     - doit --help
+  requires:
+    - pip
 
 about:
-  home: http://pydoit.org
+  home: https://pydoit.org/
   license: MIT
   license_family: MIT
   license_file: LICENSE
@@ -56,8 +56,8 @@ about:
     `doit` has been successfully used on: systems test/integration automation,
     scientific computational pipelines, content generation, configuration
     management, etc."
-  doc_url: 'http://pydoit.org/contents.html'
-  dev_url: 'https://github.com/pydoit/doit'
+  doc_url: https://pydoit.org/contents.html
+  dev_url: https://github.com/pydoit/doit
 
 extra:
   recipe-maintainers:
