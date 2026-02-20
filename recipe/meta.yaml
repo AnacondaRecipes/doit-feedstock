@@ -1,5 +1,5 @@
 {% set name = "doit" %}
-{% set version = "0.36.0" %}
+{% set version = "0.37.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,36 +7,43 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/doit-{{ version }}.tar.gz
-  sha256: 71d07ccc9514cb22fe59d98999577665eaab57e16f644d04336ae0b4bae234bc
+  sha256: d3c72e0e46a8fa1ddabea8f830762402dee090caf33c30c2295ac7010db8f09c
 
 build:
   number: 0
+  skip: true  # [py<310]
   entry_points:
     - doit = doit.__main__:main
-  script: pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation --no-cache-dir
 
 requirements:
   host:
     - python
-    - setuptools
     - pip
+    - setuptools >=68.0
     - wheel
   run:
     - python
-    - cloudpickle
-    - importlib-metadata >=4.4
+  run_constrained:
+    - tomli  # [py<311]
 
 test:
+  source_files:
+    - tests
+    - dodo.py
   imports:
     - doit
+  requires:
+    - pip
+    - pytest
+    - pyflakes
   commands:
     - pip check
     - doit --help
-  requires:
-    - pip
+    - pytest -v tests
 
 about:
-  home: https://pydoit.org/
+  home: https://pydoit.org
   license: MIT
   license_family: MIT
   license_file: LICENSE
